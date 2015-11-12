@@ -4,8 +4,9 @@ CMD="cd '$(pwd)'; sudo ./xhyverun.sh && exit"
 
 if [ "${TERM_PROGRAM}" = "Apple_Terminal" ] ; then
   osascript <<END
-    tell application "Terminal"
+	tell application "Terminal" 
       do script "${CMD}"
+			set current settings of first window to settings set "Homebrew"
     end tell
 END
 elif [ "${TERM_PROGRAM}" = "iTerm.app" ] ; then
