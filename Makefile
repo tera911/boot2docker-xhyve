@@ -1,12 +1,16 @@
 all: initrd.img vmlinuz64 boot2docker-data.img uuid2ip
 
+upgrade:
+	$(RM) boot2docker.iso
+	$(MAKE)
+
 initrd.img vmlinuz64: boot2docker.iso
 	hdiutil mount boot2docker.iso
-	cp /Volumes/Boot2Docker-v1.9/boot/$@ . && sync
-	hdiutil unmount /Volumes/Boot2Docker-v1.9
+	cp /Volumes/Boot2Docker-v1.1/boot/$@ . && sync
+	hdiutil unmount /Volumes/Boot2Docker-v1.1
 
 boot2docker.iso:
-	curl -OL https://github.com/boot2docker/boot2docker/releases/download/v1.9.0/boot2docker.iso
+	curl -OL https://github.com/boot2docker/boot2docker/releases/download/v1.10.3/boot2docker.iso
 
 boot2docker-data.img: boot2docker-data.tar.gz
 	tar zxvf boot2docker-data.tar.gz
@@ -20,7 +24,7 @@ clean: exports-clean uuid2ip-clean
 	$(RM) boot2docker-data.img
 	$(RM) boot2docker-data.tar.gz
 
-.PHONY: all clean
+.PHONY: all upgrade clean
 
 EXPORTS = $(shell ./vmnet_export.sh)
 
